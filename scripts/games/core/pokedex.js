@@ -148,7 +148,7 @@ pokedex = {
 					$('select[name=pokedex-ability]').val(a);
 					$('#pokedex-show').click();
 				} else {
-					var g = $.inArray( hash, pokedex.genName );
+					var g = $.inArray( hash, pokedex.genNames );
 					if ( g > 0 ) {
 						$('select[name=pokedex-generation]').val(g);
 						$('#pokedex-show').click();

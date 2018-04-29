@@ -124,6 +124,7 @@ window.pw = window.pokeWiki = {
     	"mediawiki:poketoru.pokemon.js" : "games/poketoru/pokemon.js",
     	"mediawiki:tabsections.js" : "snippets/tabsections.js",
     	"mediawiki:collapsiblelist.js" : "snippets/collapsiblelist.js",
+    	"mediawiki:pokedex2.js" : "games/core/pokedex.js",
     },
     
     _importRule : {
