@@ -1,0 +1,17 @@
+body {
+	background-color: #f6f6f6;
+}
+*, ::after, ::before {
+    box-sizing: content-box;
+}
+.content *,
+.content ::after,
+.content ::before {
+    box-sizing: border-box;
+}
+a {
+    color: #0645ad;
+}
+a:hover {
+    color: #0b0080;
+}
