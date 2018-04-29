@@ -1,17 +1,24 @@
-body {
+html body {
 	background-color: #f6f6f6;
 }
-*, ::after, ::before {
+
+html,
+html *,
+html ::after,
+html ::before {
     box-sizing: content-box;
 }
-.content *,
-.content ::after,
-.content ::before {
+
+html .mw-body *,
+html .mw-body ::after,
+html .mw-body ::before {
     box-sizing: border-box;
 }
-a {
+
+html a {
     color: #0645ad;
 }
-a:hover {
+
+html a:hover {
     color: #0b0080;
 }
