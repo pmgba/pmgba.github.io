@@ -3,11 +3,11 @@ window.pw = window.pokeWiki = {
   config : {
     values: {
       pwResPath : 'http://res.pokemon.name/',
-      pwScriptPath : 'http://pmgba.github.io/scripts/',
+      pwScriptPath : 'http://static.pokemon.name/scripts/',
       pwLanguage : 'zh-cn',
     },
     get : function( key, defaultValue ) {
-      return ( key in pokeWiki.config.values ) ? pokeWiki.config.values[key] : ( defaultValue || '' );
+      return pokeWiki.config.values[key] || defaultValue || '';
     },
     set: function( key, value ) {
       pokeWiki.config.values[key] = value;
@@ -25,6 +25,14 @@ window.pw = window.pokeWiki = {
     		'pokemon/pokemon.js',
     		'common.css'
     	],
+      'bootstrap' : [
+        '//cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css',
+        '//cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js'
+      ],
+      'jqueryui' : [
+        '//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css',
+        '//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js'
+      ],
       'webui-popover' : [
         '//cdn.bootcss.com/webui-popover/1.2.18/jquery.webui-popover.min.css',
         '//cdn.bootcss.com/webui-popover/1.2.18/jquery.webui-popover.min.js'
@@ -51,6 +59,7 @@ window.pw = window.pokeWiki = {
         var urlList = pw.loader._moduleList[scriptName] || [scriptName];
         
         for ( var j in urlList ) {
+        	urlList[j] = pw.loader._temporarySolution[ urlList[j].toLowerCase() ] || urlList[j];
 	        if ( false ) {
 	        } else if ( urlList[j].match(/^MediaWiki:.+\.js$/i) ) {
 	          urlList[j] = '/w/index.php?action=raw&ctype=text/javascript&maxage=2419200&smaxage=2419200&title=' + urlList[j];
@@ -101,6 +110,19 @@ window.pw = window.pokeWiki = {
       }
     },
     
+    _temporarySolution : {
+    	"mediawiki:pokemonlist.js" : "snippets/pokemon.list.js",
+    	"mediawiki:pokemondropdown.js" : "snippets/pokemon.dropdown.js",
+    	"mediawiki:pokemon.7" : "pokemon/pokemon.7.js",
+    	"mediawiki:poketoru.js" : "games/poketoru/poketoru.js",
+    	"mediawiki:poketoru.droprate.js" : "games/poketoru/poketoru.droprate.js",
+    	"mediawiki:poketoru.filter.js" : "games/poketoru/poketoru.filter.js",
+    	"mediawiki:poketoru.layout.js" : "games/poketoru/poketoru.layout.js",
+    	"mediawiki:poketoru.pokemon.js" : "games/poketoru/poketoru.pokemon.js",
+    	"mediawiki:tabsections.js" : "snippets/tabsections.js",
+    	"mediawiki:collapsiblelist.js" : "snippets/collapsiblelist.js",
+    },
+    
     _importRule : {
     	
     	".import" : function() {
@@ -110,7 +132,6 @@ window.pw = window.pokeWiki = {
 	        if ( extraCSS && !extraCSS.match(/^(http:\/\/|https:\/\/|\/\/)/i) && $.inArray( extraCSS, scriptList ) == -1 ) { scriptList.push(extraCSS) }
 	        if ( extraJS && !extraJS.match(/^(http:\/\/|https:\/\/|\/\/)/i) && $.inArray( extraJS, scriptList ) == -1 ) { scriptList.push(extraJS) }
 	      });
-      
       	if ( scriptList.length > 0 ) pokeWiki.loader.using( scriptList );
     	},
     	
@@ -157,11 +178,36 @@ window.pw = window.pokeWiki = {
  			   } );
     	},
     	
-    	"body.mw-special-Recentchanges" : function() {
-    		pw.loader.using( [ 'mw.recentchanges/rc.js', 'mw.recentchanges/rc.css'] );
+    	".mw-code" : function() {
+    		pw.loader.using( 'chart', function() {
+		      $(".chart").each(function(){
+		        var $this = $(this);
+		        var $ctx = $('<canvas width="'+$this.width()+'px" height="'+$this.height()+'px"></canvas>');
+		        $(this).append($ctx);
+		        var config = $this.data("config");
+		        if ( ! config ) { return true; }
+		        var myChart = new Chart( $ctx, config );
+		      });
+ 			   } );
     	},
+    	
   	},
   	
+    _extRule : [
+	    {
+	    	c : function() { return mw.config.get( 'wgCanonicalSpecialPageName' ) === 'Recentchanges'; },
+	    	s : [ 'mw/recentchanges.js', 'mw/recentchanges.css']
+	    },
+	    {
+	    	c : function() { return mw.config.get( 'wgAction' ) === 'edit' || mw.config.get( 'wgAction' ) === 'submit'; },
+	    	s : [ 'mw/edit.js' ]
+	    },
+	    {
+	    	c : function() { return mw.config.get('wgIsArticle') && (mw.config.get('wgNamespaceNumber')%2==0) && mw.config.get('wgPageName') != "首页"; },
+	    	s : [ 'extensions/comment/comment.js', 'extensions/comment/comment.css' ]
+	    },
+	    
+    ],
   },
 
   util : {
@@ -229,7 +275,10 @@ window.pw = window.pokeWiki = {
 	  	$.each( pw.loader._importRule, function( selecter, func ) {
 	  		if ( $(selecter).length > 0 ) func();
 	  	});
-  	} );
+	  	$.each( pw.loader._extRule, function( i, v ) {
+	  		if ( v.c() ) pw.loader.using( v.s );
+	  	});
+  	});
   	
     $('.noscript').remove();
   }
