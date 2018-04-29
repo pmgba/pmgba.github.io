@@ -2,16 +2,11 @@ html body {
 	background-color: #f6f6f6;
 }
 
-html,
-html *,
-html ::after,
-html ::before {
-    box-sizing: content-box;
+html {
+    box-sizing: content-box !important;
 }
 
-html .mw-body *,
-html .mw-body ::after,
-html .mw-body ::before {
+.mw-body {
     box-sizing: border-box;
 }
 

@@ -1,6 +1,6 @@
 // 对[[特殊:最近更改]]与[[特殊:日志]]重新排版并添加颜色样式。
 
-if ( mw.config.get('wgCanonicalSpecialPageName') == "Recentchanges" && mw.user.options.get('usenewrc') == 0 ) {
+if ( mw.user.options.get('usenewrc') == 0 ) {
 	function createusermenu(user) {
 		return user;
 		var username = user.match(/>(.+?)</)[1];

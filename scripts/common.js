@@ -49,7 +49,10 @@ window.pw = window.pokeWiki = {
       ],
       'font-awesome' : [
         '//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css'
-      ]
+      ],
+      'ionicons' : [
+        '//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css'
+      ],
     },
 
     using: function( scripts, callback ) {
@@ -89,7 +92,7 @@ window.pw = window.pokeWiki = {
     _createResLink: function() {
       if ( $('#ca-import').length == 0 ) {
         $( mw.util.addPortletLink( 'p-cactions', '#' , '资源', 'ca-import' ) ).click( function( e ) {
-          mw.loader.using( 'jquery.ui.dialog', function () {
+          pw.loader.using( 'jqueryui', function () {
             if ( $('#importdialog').length == 0 ) {
               $('body').append('<div id="importdialog" title="这个页面调用的资源" ></div>');
             }
@@ -115,10 +118,10 @@ window.pw = window.pokeWiki = {
     	"mediawiki:pokemondropdown.js" : "snippets/pokemon.dropdown.js",
     	"mediawiki:pokemon.7" : "pokemon/pokemon.7.js",
     	"mediawiki:poketoru.js" : "games/poketoru/poketoru.js",
-    	"mediawiki:poketoru.droprate.js" : "games/poketoru/poketoru.droprate.js",
-    	"mediawiki:poketoru.filter.js" : "games/poketoru/poketoru.filter.js",
-    	"mediawiki:poketoru.layout.js" : "games/poketoru/poketoru.layout.js",
-    	"mediawiki:poketoru.pokemon.js" : "games/poketoru/poketoru.pokemon.js",
+    	"mediawiki:poketoru.droprate.js" : "games/poketoru/droprate.js",
+    	"mediawiki:poketoru.filter.js" : "games/poketoru/filter.js",
+    	"mediawiki:poketoru.layout.js" : "games/poketoru/layout.js",
+    	"mediawiki:poketoru.pokemon.js" : "games/poketoru/pokemon.js",
     	"mediawiki:tabsections.js" : "snippets/tabsections.js",
     	"mediawiki:collapsiblelist.js" : "snippets/collapsiblelist.js",
     },
@@ -137,6 +140,9 @@ window.pw = window.pokeWiki = {
     	
     	".fa" : function() {
     		pw.loader.using( 'font-awesome' );
+    	},
+    	".ion" : function() {
+    		pw.loader.using( 'ionicons' );
     	},
     	
     	".flag-icon" : function() {
@@ -195,7 +201,7 @@ window.pw = window.pokeWiki = {
   	
     _extRule : [
 	    {
-	    	c : function() { return mw.config.get( 'wgCanonicalSpecialPageName' ) === 'Recentchanges'; },
+	    	c : function() { return mw.config.get( 'wgCanonicalSpecialPageName' ) === 'Recentchanges' || mw.config.get( 'wgCanonicalSpecialPageName' ) === 'Log'; },
 	    	s : [ 'mw/recentchanges.js', 'mw/recentchanges.css']
 	    },
 	    {
@@ -205,6 +211,10 @@ window.pw = window.pokeWiki = {
 	    {
 	    	c : function() { return mw.config.get('wgIsArticle') && (mw.config.get('wgNamespaceNumber')%2==0) && mw.config.get('wgPageName') != "首页"; },
 	    	s : [ 'extensions/comment/comment.js', 'extensions/comment/comment.css' ]
+	    },
+	    {
+	    	c : function() { return mw.config.get('wgUserId'); },
+	    	s : [ 'mw/link.js' ]
 	    },
 	    
     ],
@@ -240,9 +250,12 @@ window.pw = window.pokeWiki = {
         },
         error: callbackError
       });
+    },
+    goto : function( title ) {
+			window.location.href = mw.util.getUrl(title);
     }
   },
-
+  
   localStorage : {
     get : function ( key, defaultValue ) {
       var raw = localStorage.getItem( key );
