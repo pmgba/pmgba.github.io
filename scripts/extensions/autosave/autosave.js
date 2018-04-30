@@ -132,6 +132,7 @@ autosave = {
 			delete autosave.list[mw.config.get( 'wgPageName' ).toString()];
 			localStorage.setItem( autosave.listKey, JSON.stringify(autosave.list) );
 			localStorage.removeItem( autosave.articleKey );
+			mw.notify('发布成功，保存的草稿已删除。');
 		};
 	},
 
@@ -145,7 +146,7 @@ autosave = {
 		} else if ( mw.config.get( 'wgPageName' ) === '特殊:草稿' ) {
 			autosave.generateSpecialPage();
 		} else if ( mw.config.get( 'wgAction' ) === 'view' ) {
-			setTimeout( autosave.checkSuccess, 1000 );
+			setTimeout( autosave.checkSuccess, 200 );
 		}
 
 		mw.util.addPortletLink(

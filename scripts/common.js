@@ -18,7 +18,6 @@ window.pw = window.pokeWiki = {
   loader : {
    
     _scriptList : {},
-		_resLink : false,
 		
     _moduleList : {
     	'mw-default' : [
@@ -88,38 +87,11 @@ window.pw = window.pokeWiki = {
 	      	for ( var scriptName in pw.loader._scriptList ) pw.loader._scriptList[scriptName] = true;
 	      	if ( callback ) callback();
 	      } } );
-      	pw.loader._createResLink();
     	} else {
 	      if ( callback ) callback();
     	}
     },
 
-    _createResLink: function() {
-    	
-      if ( $('#ca-import').length == 0 && mw.config.get("wgUserGroups").indexOf('sysop') > -1 ) {
-        $( mw.util.addPortletLink( 'p-cactions', '#' , '资源', 'ca-import' ) ).click( function( e ) {
-          pw.loader.using( 'jqueryui', function () {
-            if ( $('#importdialog').length == 0 ) {
-              $('body').append('<div id="importdialog" title="这个页面调用的资源" ></div>');
-            }
-            var $dialog = $( '#importdialog' );
-            var html = '<ul>';
-            $.each( pokeWiki.loader._scriptList, function(script,v) {
-              html += '<li><a href="' + script + '">' + script + '</a></li>';
-            });
-            html += '</ul>';
-            $dialog.html( html );
-            $dialog.dialog({
-              height: "auto",
-              width: "auto",
-              resizable: false,
-              modal: true
-            });
-          });
-        });
-      }
-    },
-    
     _temporarySolution : {
     	"mediawiki:pokemonlist.js" : "snippets/pokemon.list.js",
     	"mediawiki:pokemondropdown.js" : "snippets/pokemon.dropdown.js",
@@ -129,9 +101,9 @@ window.pw = window.pokeWiki = {
     	"mediawiki:poketoru.filter.js" : "games/poketoru/filter.js",
     	"mediawiki:poketoru.layout.js" : "games/poketoru/layout.js",
     	"mediawiki:poketoru.pokemon.js" : "games/poketoru/pokemon.js",
+    	"mediawiki:poketoru.dex2.js" : "games/poketoru/dex.js",
     	"mediawiki:tabsections.js" : "snippets/tabsections.js",
     	"mediawiki:collapsiblelist.js" : "snippets/collapsiblelist.js",
-    	"mediawiki:pokedex2.js" : "games/core/pokedex.js",
     },
     
     _importRule : {
