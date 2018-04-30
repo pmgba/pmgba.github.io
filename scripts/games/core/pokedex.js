@@ -5,8 +5,8 @@ pokedex = {
 		var num = pid.split('.');
 		var name = pw.util.getPokemonName( pid );
 
-		tr += '<tr>';
-		tr += '<td>' + pokeWiki.util.createPokemonIcon(pid) + '</td>';
+		tr += '<tr style="line-height:30px;">';
+		tr += '<td>' + pw.util.createPokemonIconS(pid).prop("outerHTML") + '</td>';
 		tr += '<td>#'+num[0]+'</td>';
 		tr += '<td><a href="'+mw.util.getUrl(name[0])+'">'+name[2]+'</a></td>';
  
@@ -59,6 +59,9 @@ pokedex = {
 	createPanel : function(){
 		
 		var htmlDex = ''
+			+'<div class="card pokedex">'
+			+'<div class="card-header">宝可梦图鉴</div>'
+			+'<div class="card-body border-bottom">'
 			+'<div class="container-fluid">'
 			+'	<form class="form-horizontal" role="form">'
 			+'		<div class="row">'
@@ -103,8 +106,20 @@ pokedex = {
 			+'		</div>'
 			+'	</form>'
 			+'</div>'
+			+'</div>'
+			+'<table class="table table-sm table-hover text-center pokedex-results">'
+			+'<thead>'
+			+'<tr>'
+			+'<th>图标</th><th>编号</th><th>宝可梦</th><th>属性</th><th colspan="2">特性</th><th>隐藏特性</th>'
+			+'<th>&nbsp;HP&nbsp;</th><th>攻击</th><th>防御</th><th>特攻</th><th>特防</th><th>速度</th><th>总和</th>'
+			+'</tr>'
+			+'</thead>'
+			+'<tbody class="">'
+			+'</tbody>'
+			+'</table>'
+			+'</div>'
 			+'';
-		$("#pokedex").html(htmlDex);
+		$(".pw-jscontent").html(htmlDex);
 		
 		$('#pokedex-show').click(function(){
 			var selectedType = parseInt($('select[name=pokedex-type]').val());
@@ -159,7 +174,7 @@ pokedex = {
 	},
 	
 	init : function(){
-		pw.loader.using( [ 'pokemon/pokemon.js', 'pokemon/pokemon.7.js', 'jqueryui'], function(){
+		pw.loader.using( [ 'pokemon/pokemon.js', 'pokemon/pokemon.7.js', 'bootstrap'], function(){
 			pokedex.genNames = [''];
 			for(var g=1;g<pw.info.maxPokemonCounts.length;g++){
 				pokedex.genNames[g] = '第' + '零一二三四五六七八九十'[g] + '世代';

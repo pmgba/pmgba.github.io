@@ -562,10 +562,12 @@ $.extend( true, pw.poketoru, {
 		+ '	</tr></table>'
 		+ '	<table class="poketoruTip-row"><tr>'
 		+ '		<td class="poketoruTip-img"></td>'
-		+ '		<td class="poketoruTip-data">'
-		+ '			<div class="row"><div class="col-xs-5">属性</div><div class="col-xs-7 poketoruTip-type"></div></div>'
-		+ '			<div class="row"><div class="col-xs-5">攻击力</div><div class="col-xs-7 poketoruTip-attack"></div></div>'
-		+ '			<div class="row poketoruTip-maxlevel"><div class="col-xs-5">最大等级</div><div class="col-xs-7"><img src="/w/images/thumb/b/b9/Shuffle_Raise_Max_Level.png/32px-Shuffle_Raise_Max_Level.png" width="16" height="16">0/<span class="value"></span></div></div>'
+		+ '		<td>'
+		+ '			<table class="poketoruTip-data">'
+		+ '				<tr><td>属性</td><td class="poketoruTip-type"></td></tr>'
+		+ '				<tr><td>攻击力</td><td class="poketoruTip-attack"></td></tr>'
+		+ '				<tr><td>最大等级</td><td class="poketoruTip-rml"><img src="/w/images/thumb/b/b9/Shuffle_Raise_Max_Level.png/32px-Shuffle_Raise_Max_Level.png" width="16" height="16">0/<span class="value"></span></td></tr>'
+		+ '			</table>'
 		+ '		</td>'
 		+ '	</tr></table>'
 		+ '	<table class="poketoruTip-row"><tr>'
@@ -574,15 +576,17 @@ $.extend( true, pw.poketoru, {
 		+ '</div>'
 	),
 
-	skillHtml : '<div class="row poketoruTip-skill"><div class="col-xs-5 poketoruTip-skillname"></div><div class="col-xs-7 poketoruTip-skilltext"></div></div>',
+	skillHtml : '<tr class="poketoruTip-skill"><td class="poketoruTip-skillname"></td><td class="poketoruTip-skilltext"></td></tr>',
 
 	megaHtml : ''
 		+ '	<table class="poketoruTip-row poketoruTip-mega"><tr>'
 		+ '		<td class="poketoruTip-img"></td>'
-		+ '		<td class="poketoruTip-data">'
-		+ '			<div class="row"><div class="col-xs-5">属性</div><div class="col-xs-7 poketoruTip-type"></div></div>'
-		+ '			<div class="row"><div class="col-xs-5">进化速度</div><div class="col-xs-7 poketoruTip-megabar"><img src="/w/images/thumb/2/27/Shuffle_Mega_Start.png/16px-Shuffle_Mega_Start.png" width="16" height="16" ><span class="value1"></span> - <img src="/w/images/thumb/e/e7/Shuffle_Mega_Speedup.png/16px-Shuffle_Mega_Speedup.png" width="16" height="16"><span class="value2"></span></div></div>'
-		+ '			<div class="row"><div class="col-xs-5">超级进化效果</div><div class="col-xs-7 poketoruTip-megaeffects"></div></div>'
+		+ '		<td>'
+		+ '			<table class="poketoruTip-data">'
+		+ '				<tr><td>属性</td><td class="poketoruTip-type"></td></tr>'
+		+ '				<tr><td>进化速度</td><td class="poketoruTip-megabar"><img src="/w/images/thumb/2/27/Shuffle_Mega_Start.png/16px-Shuffle_Mega_Start.png" width="16" height="16" ><span class="value1"></span> - <img src="/w/images/thumb/e/e7/Shuffle_Mega_Speedup.png/16px-Shuffle_Mega_Speedup.png" width="16" height="16"><span class="value2"></span></td></tr>'
+		+ '				<tr><td>超级进化效果</td><td class="poketoruTip-megaeffects"></td></tr>'
+		+ '			</table>'
 		+ '		</td>'
 		+ '	</tr></table>',
 
@@ -629,11 +633,10 @@ $.extend( true, pw.poketoru, {
 				skilltext += '<br>('+(plays*cost)+'/'+(playsi*cost)+(cost>3?'硬币':'体力')+')';
 			}
 			$skill.find('.poketoruTip-skilltext').html(skilltext);
-			pw.poketoru.$popup.find('.poketoruTip-data').append($skill);
+			pw.poketoru.$popup.find('.poketoruTip-data tbody').append($skill);
 		});
 		pw.poketoru.$popup.find('.poketoruTip-loc').html(pkmn.loc);
-		pw.poketoru.$popup.find('.poketoruTip-maxlevel').toggle(!!pkmn.rml);
-		if ( !!pkmn.rml ) pw.poketoru.$popup.find('.poketoruTip-maxlevel .value').html(pkmn.rml);
+		if ( !!pkmn.rml ) pw.poketoru.$popup.find('.poketoruTip-rml .value').html(pkmn.rml);
 		pw.poketoru.$popup.find('.poketoruTip-mega').remove();
 		if ( pkmn.hasMega ) {
 			$.each( pw.poketoru.megaList[pkmnID], function(i, megaID) {
@@ -653,6 +656,7 @@ $.extend( true, pw.poketoru, {
 	},
 
 	createPoketoruTooltips: function() {
+		$('.shufflepokemon').webuiPopover('destroy');
 		$('.shufflepokemon:not(.shufflepokemon-tipped, a *)').webuiPopover({
 			trigger: 'hover',
 			placement: 'top',
@@ -681,9 +685,9 @@ $.extend( true, pw.poketoru, {
 			+ '.poketoruTip-loc { text-align: right; transform: scale(0.9); transform-origin: right; padding-top: 3px; margin-top: 3px; }'
 			+ '.poketoruTip-img { width: 90px; }'
 			+ '.poketoruTip-img img { width: 80px; }'
-			+ '.poketoruTip-data > .row { padding-top: 3px; }'
-			+ '.poketoruTip-data > .row + .row { border-top: 1px dotted #ccc; margin-top: 3px; }'
-			+ '.poketoruTip-data > .row:first-child div:first-child { line-height:20px; }'
+			+ '.poketoruTip-data { width: 100%; }'
+			+ '.poketoruTip-data tr+tr td { border-top: 1px dotted #ccc; }'
+			+ '.poketoruTip-data td:first-child { width: 40%; }'
 			+ '.poketoruTip-skilltext, .poketoruTip-megaeffects { text-align: left; }'
 			);
 

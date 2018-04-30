@@ -35,7 +35,7 @@ comment = {
 				$('#comment_buttons').hide();
 			}
 		});
-	}(),
+	},
 	
 	post : function() {
 		var textarea = $('#comment textarea')[0];
@@ -73,3 +73,5 @@ comment = {
 		});
 	}
 }
+
+comment.createCommentBox();
