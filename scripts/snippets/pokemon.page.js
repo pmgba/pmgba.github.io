@@ -1,5 +1,5 @@
 function(){
-	mw.loader.using('jquery.ui.tabs',function(){
+	mw.loader.using('jqueryui',function(){
 		$('#pokemonforms li').each(function(i,v){
 			$(this).html('<a href="#pokemonform-'+(i+1)+'">'+$(this).html()+'</a>');
 		});

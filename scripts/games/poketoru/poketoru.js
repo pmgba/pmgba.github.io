@@ -694,8 +694,8 @@ $.extend( true, pw.poketoru, {
 	}
 });
 
-pw.poketoru.init();
 
-pw.loader.using( ['MediaWiki:Poketoru.pokemon.js', 'webui-popover'], function() {
+pw.loader.using( [ 'pokemon', 'games/poketoru/pokemon.js', 'webui-popover'], function() {
+	pw.poketoru.init();
 	pw.poketoru.createPoketoruTooltips();
 });

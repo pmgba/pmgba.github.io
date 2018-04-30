@@ -1,4 +1,4 @@
-pokeWiki.loader.using( ['MediaWiki:Poketoru.js','MediaWiki:Poketoru.pokemon.js'], function() {
+pokeWiki.loader.using( [ 'pokemon', 'games/poketoru/poketoru.js','games/poketoru/pokemon.js' ], function() {
 
 $.extend( true, pw.poketoru, {
 	superEffects : [],

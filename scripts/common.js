@@ -21,9 +21,7 @@ window.pw = window.pokeWiki = {
 		
     _moduleList : {
     	'mw-default' : [
-    		'//cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap-grid.min.css',
-    		'pokemon/pokemon.js',
-    		'common.css'
+    		'//cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap-grid.min.css'
     	],
       'bootstrap' : [
         '//cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css',
@@ -52,6 +50,9 @@ window.pw = window.pokeWiki = {
       ],
       'ionicons' : [
         '//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css'
+      ],
+      'pokemon' : [
+        'pokemon/pokemon.js'
       ],
     },
 

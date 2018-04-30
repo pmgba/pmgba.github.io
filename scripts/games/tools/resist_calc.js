@@ -184,7 +184,7 @@ calc = {
 	},
 	
 	init : function(){
-		pw.loader.using( [ 'pokemon/pokemon.js', 'pokemon/pokemon.7.js', 'bootstrap'], function(){
+		pw.loader.using( [ 'pokemon', 'pokemon/pokemon.7.js', 'bootstrap'], function(){
 			pokedex.genNames = [''];
 			for(var g=1;g<pw.info.maxPokemonCounts.length;g++){
 				pokedex.genNames[g] = '第' + '零一二三四五六七八九十'[g] + '世代';

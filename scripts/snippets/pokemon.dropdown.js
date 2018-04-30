@@ -1,4 +1,4 @@
-function(){
+pw.loader.using( [ 'pokemon'], function(){
 	var html = '';
 	html += '<select>';
 	for(var pi=1;pi<=pw.info.maxPokemonCount;pi++) {
@@ -14,4 +14,4 @@ function(){
 		location.href=mw.util.getUrl(title);
 	});
 	$container.append($pdd);
-};
+});

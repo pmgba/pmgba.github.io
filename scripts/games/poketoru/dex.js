@@ -1,4 +1,4 @@
-pokeWiki.loader.using( ['MediaWiki:Poketoru.js','MediaWiki:Poketoru.pokemon.js','bootstrap'], function() {
+pokeWiki.loader.using( [ 'pokemon', 'games/poketoru/poketoru.js','games/poketoru/pokemon.js', 'bootstrap' ], function() {
 
 $.extend( true, pw.poketoru, {
 	skillOrder : [72,76,159,45,51,52,1,2,46,3,67,71,118,121,120,86,111,4,47,119,115,116,117,112,113,5,48,122,90,114,73,74,75,110,9,40,153,41,144,42,143,150,43,152,44,66,92,151,84,37,88,36,38,87,145,156,26,93,39,154,155,20,149,147,146,148,6,10,11,123,89,12,14,13,15,16,81,82,99,100,101,102,105,106,107,68,80,103,108,104,50,77,78,109,79,17,131,18,130,49,83,19,128,69,70,129,127,7,126,8,124,85,125,163,21,22,23,30,54,55,132,160,31,56,57,135,32,58,59,140,142,141,33,60,61,91,139,138,34,62,63,137,136,161,24,25,133,134,162,27,28,53,29,35,64,65,98,94,157,95,158,96,97],
@@ -276,13 +276,15 @@ poketoruDex =  {
 	var html = ''
 +'<div class="row">'
 +'		<div class="col-12 col-md-4" style="padding:0 1em;">'
-+'			<h3 class="col-12">{pkmnname}</h3>'
++'			<h3>{pkmnname}</h3>'
++'			<div>'
 +'			<div class="col-4">{pkmnicon}</div>'
 +'			<div class="col-8 shuffle-data">'
 +'				<div class="row"><div class="col-4">推荐度</div><div class="col-8">{pkmnrank}</div></div>'
 +'				<div class="row"><div class="col-4">属性</div><div class="col-8">{pkmntype}</div></div>'
 +'				<div class="row"><div class="col-4">攻击力</div><div class="col-8">{pkmnattack}</div></div>'
 +'				<div class="row"><div class="col-4">最大等级</div><div class="col-8"><img src="/w/images/thumb/b/b9/Shuffle_Raise_Max_Level.png/32px-Shuffle_Raise_Max_Level.png" width="16" height="16">0/{pkmnrml}</div></div>'
++'			</div>'
 +'			</div>{pkmnmega}{pkmnform}'
 +'		</div>'
 +'		<div class="col-12 col-md-4" style="padding:0 1em;">'
@@ -384,13 +386,15 @@ poketoruDex =  {
 			$.each( pw.poketoru.megaList[pkmnID], function(i, megaID) {
 				var mega = pw.poketoru.getPokemonData(megaID);
 				var megaEffects = pw.poketoru.megaEffects[mega.skills[0]].replace('$1',mega.name);
-				htmlMega += '<h3 class="col-12">'+pw.util.getPokemonName(megaID).fullname.replace(/[（）]/g,'～')+'</h3>';
+				htmlMega += '<h3>'+pw.util.getPokemonName(megaID).fullname.replace(/[（）]/g,'～')+'</h3>';
+				htmlMega += '<div class="row">';
 				htmlMega += '<div class="col-4"><img src="' + pw.poketoru.getPoketoruIconSrc(megaID) + '" /></div>';
 				htmlMega += '<div class="col-8 shuffle-data">';
 				htmlMega += '<div class="row"><div class="col-4">属性</div><div class="col-8">'+pw.util.createColorlabel('span','type',mega.type,null,'colorlabel-fixed')+'</div></div>';
 				htmlMega += '<div class="row"><div class="col-4">超级进化速度</div><div class="col-8">'+mega.mb+'</div></div>';
 				htmlMega += '<div class="row shuffledex-editparent"><div class="col-4">超级进化加速</div><div class="col-xs-1"></div><div class="col-xs-6"><img src="/w/images/thumb/e/e7/Shuffle_Mega_Speedup.png/24px-Shuffle_Mega_Speedup.png" />'+mega.msu+'</div><div class="col-xs-1"><input class="shuffledex-edit" name="shuffledex-editmsu" type="checkbox" value="'+mega.msu+'" /></div></div>';
 				htmlMega += '<div class="row"><div class="col-4">超级进化效果</div><div class="col-8">'+megaEffects+'</div></div>';
+				htmlMega += '</div>';
 				htmlMega += '</div>';
 			});
 		}

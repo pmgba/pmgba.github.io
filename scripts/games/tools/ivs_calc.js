@@ -1,7 +1,7 @@
 // [[分类:脚本文件]]
 // 这个文件由[[Iv calculator]]调用。
 
-pokeWiki.loader.using( ['MediaWiki:Pokemon.7.js'], function(){
+pokeWiki.loader.using( [ 'pokemon', 'pokemon/pokemon.7.js' ], function(){
 
 var COLORNAMES = ["red","blue","yellow","green","black","brown","purple","gray","white","pink"];
 
