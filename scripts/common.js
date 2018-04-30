@@ -18,10 +18,11 @@ window.pw = window.pokeWiki = {
   loader : {
    
     _scriptList : {},
-
+		_resLink : false,
+		
     _moduleList : {
     	'mw-default' : [
-    		'https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap-grid.min.css',
+    		'//cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap-grid.min.css',
     		'pokemon/pokemon.js',
     		'common.css'
     	],
@@ -58,39 +59,44 @@ window.pw = window.pokeWiki = {
     using: function( scripts, callback ) {
       if ( !Array.isArray(scripts) ) scripts = [scripts];
 
+      var urlToLoad = [];
+       
       $.each( scripts, function( i, scriptName ) {
         var urlList = pw.loader._moduleList[scriptName] || [scriptName];
         
         for ( var j in urlList ) {
-        	urlList[j] = pw.loader._temporarySolution[ urlList[j].toLowerCase() ] || urlList[j];
+        	var url = pw.loader._temporarySolution[ urlList[j].toLowerCase() ] || urlList[j];
+        	
 	        if ( false ) {
-	        } else if ( urlList[j].match(/^MediaWiki:.+\.js$/i) ) {
-	          urlList[j] = '/w/index.php?action=raw&ctype=text/javascript&maxage=2419200&smaxage=2419200&title=' + urlList[j];
-	        } else if ( urlList[j].match(/^MediaWiki:.+\.css$/i) ) {
-	          urlList[j] = '/w/index.php?action=raw&ctype=text/css&maxage=2419200&smaxage=2419200&title=' + urlList[j];
-	        } else if ( urlList[j].match(/^(http:\/\/|https:\/\/|\/\/)/i) ) {
+	        } else if ( url.match(/^MediaWiki:.+\.js$/i) ) {
+	          url = '/w/index.php?action=raw&ctype=text/javascript&maxage=2419200&smaxage=2419200&title=' + url;
+	        } else if ( url.match(/^MediaWiki:.+\.css$/i) ) {
+	          url = '/w/index.php?action=raw&ctype=text/css&maxage=2419200&smaxage=2419200&title=' + url;
+	        } else if ( url.match(/^(http:\/\/|https:\/\/|\/\/)/i) ) {
 	        } else {
-	          urlList[j] = pw.config.get('pwScriptPath') + urlList[j].toLowerCase();
+	          url = pw.config.get('pwScriptPath') + url;
+	        }
+	        if ( ! ( url in pw.loader._scriptList ) ) {
+	        	pw.loader._scriptList[ url ] = false;
+	        	urlToLoad.push( url );
 	        }
         }
-        
-        if ( !(scriptName in pw.loader._scriptList) ) {
-          pw.loader._scriptList[scriptName] = false;
-          loadjs( urlList, scriptName, { success: function() {
-            pw.loader._scriptList[scriptName] = true;
-          } } );
-        }
       });
 
-      pw.loader._createResLink();
-
-      loadjs.ready( scripts, {
-        success: callback
-      });
+			if ( urlToLoad.length > 0 ) {
+	      loadjs( urlToLoad, { success: function() {
+	      	for ( var scriptName in pw.loader._scriptList ) pw.loader._scriptList[scriptName] = true;
+	      	if ( callback ) callback();
+	      } } );
+      	pw.loader._createResLink();
+    	} else {
+	      if ( callback ) callback();
+    	}
     },
 
     _createResLink: function() {
-      if ( $('#ca-import').length == 0 ) {
+    	
+      if ( $('#ca-import').length == 0 && mw.config.get("wgUserGroups").indexOf('sysop') > -1 ) {
         $( mw.util.addPortletLink( 'p-cactions', '#' , '资源', 'ca-import' ) ).click( function( e ) {
           pw.loader.using( 'jqueryui', function () {
             if ( $('#importdialog').length == 0 ) {
@@ -99,12 +105,13 @@ window.pw = window.pokeWiki = {
             var $dialog = $( '#importdialog' );
             var html = '<ul>';
             $.each( pokeWiki.loader._scriptList, function(script,v) {
-              html += '<li><a href="' + mw.util.getUrl(script) + '">' + script + '</a></li>';
+              html += '<li><a href="' + script + '">' + script + '</a></li>';
             });
             html += '</ul>';
             $dialog.html( html );
             $dialog.dialog({
               height: "auto",
+              width: "auto",
               resizable: false,
               modal: true
             });
