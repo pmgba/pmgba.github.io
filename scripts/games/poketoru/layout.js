@@ -1,6 +1,4 @@
-pw.poketoru = pw.poketoru || {};
-
-pw.poketoru.layout = {
+poketoruBoard = {
 
 	defaultIconWidth : '32px',
 
@@ -26,8 +24,8 @@ pw.poketoru.layout = {
 		key = key.toLowerCase();
 		var img = '';
 		var src = '';
-		if ( key in pw.poketoru.layout.iconSrc ) {
-			src = pw.poketoru.layout.iconSrc[key];
+		if ( key in poketoruBoard.iconSrc ) {
+			src = poketoruBoard.iconSrc[key];
 		} else if ( key.length == 1 ) {
 			var f = ('0' + (key.charCodeAt()-'a'.charCodeAt())).slice(-2);
 			src = pw.util.getResUrl('/sprites/side/shuffle/pokemon/201.'+f+'.png');
@@ -75,7 +73,7 @@ pw.poketoru.layout = {
 		for ( var x = ( isFullLayout ? 0 : displayRowOffset ); x < dataRowLength; x++ ) {
 			tableHtml += '<tr>';
 			for ( var y=0; y<6; y++ ) {
-				var isEmpty = iconList[x][y].length == 0 || $.inArray( iconList[x][y][0], pw.poketoru.layout.coverIcons ) > -1;
+				var isEmpty = iconList[x][y].length == 0 || $.inArray( iconList[x][y][0], poketoruBoard.coverIcons ) > -1;
 				tableHtml += '<td><div class="' + (isEmpty?'shuffleboard-empty':'') +'" style="width:'+iconWidth+';height:'+iconWidth+';">';
 				for ( var i = 0; i < iconList[x][y].length; i++ ) {
 					var iconKey = iconList[x][y][i];
@@ -96,7 +94,7 @@ pw.poketoru.layout = {
 							arrowY2 = ( x + 0.5 ) * ( iconWidth2 + 1 );
 						}
 					} else {
-						tableHtml += pw.poketoru.layout.createIcon( iconKey, iconWidth );
+						tableHtml += poketoruBoard.createIcon( iconKey, iconWidth );
 					}
 				}
 				tableHtml += '</div></td>';
@@ -106,7 +104,7 @@ pw.poketoru.layout = {
 		}
 		tableHtml += '</table>';
 		if ( arrowX1 && arrowY1 && arrowX2 && arrowY2 ) {
-			tableHtml += pw.poketoru.layout.arrowSvg.replace('{w}',( iconWidth2 + 1 )*6).replace('{h}',( iconWidth2 + 1 )*6).replace('{x1}',arrowX1).replace('{y1}',arrowY1).replace('{x2}',arrowX2).replace('{y2}',arrowY2);
+			tableHtml += poketoruBoard.arrowSvg.replace('{w}',( iconWidth2 + 1 )*6).replace('{h}',( iconWidth2 + 1 )*6).replace('{x1}',arrowX1).replace('{y1}',arrowY1).replace('{x2}',arrowX2).replace('{y2}',arrowY2);
 		}
 		tableHtml += '</div>';
 		$table = $(tableHtml);
@@ -136,14 +134,14 @@ pw.poketoru.layout = {
 		$('.shuffleboard').each(function(){
 			var $this = $(this);
 			if ( ! $this.data('default') ) { return true; }
-			var iconWidth = ( $this.data('iconwidth') && $this.data('iconwidth').match(/^\d+px$/i) ) ? $this.data('iconwidth') : pw.poketoru.layout.defaultIconWidth;
+			var iconWidth = ( $this.data('iconwidth') && $this.data('iconwidth').match(/^\d+px$/i) ) ? $this.data('iconwidth') : poketoruBoard.defaultIconWidth;
 			
 			try {
 				var defaultBoard = $.parseJSON( '[' + $this.data('default').replace(/'/g,'"') + ']' );
 			} catch(e) {
 				return true;
 			}
-			var $table = pw.poketoru.layout.createBoard( defaultBoard, iconWidth,  false );
+			var $table = poketoruBoard.createBoard( defaultBoard, iconWidth,  false );
 			$this.html($table);
 			if ( defaultBoard[0].length > 6 ) {
 				var $expand = $('<div class="shuffleboard-expand">展开</div>');
@@ -153,7 +151,7 @@ pw.poketoru.layout = {
 							$('body').append('<div id="shuffleboard-dialog" title="完整布局"></div>');
 						}
 						var $dialog = $( '#shuffleboard-dialog' );
-						$dialog.html( pw.poketoru.layout.createBoard(defaultBoard,iconWidth,true) );
+						$dialog.html( poketoruBoard.createBoard(defaultBoard,iconWidth,true) );
 						$dialog.dialog({
 							width: 300,
 							modal: true,
@@ -170,4 +168,4 @@ pw.poketoru.layout = {
 	}
 };
 
-pw.poketoru.layout.init();
+poketoruBoard.init();

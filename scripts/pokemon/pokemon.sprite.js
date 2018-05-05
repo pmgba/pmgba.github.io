@@ -52,4 +52,6 @@ pw.spriteGenerator = {
 	}
 };
 
-pw.spriteGenerator.init();
+pw.loader.using('pokemon',function(){
+	pw.spriteGenerator.init();
+});

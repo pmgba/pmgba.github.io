@@ -1,7 +1,7 @@
 comment = {
 	archivePage : '口袋百科:页面留言',
 	
-	talkPame : function(){
+	talkPage : function(){
 		var talkpage = $('#ca-talk a').attr('href');
 		talkpage = $('#ca-talk').hasClass('new') ? /=(.+?)&/.exec(talkpage)[1] : talkpage.replace('/wiki/','');
 		talkpage = decodeURIComponent(talkpage).replace('%20','+');
@@ -10,7 +10,7 @@ comment = {
 	
 	createCommentBox : function() {
 		var html = '<div class="pw-comment">';
-		html += '<h2><a href="/wiki/'+ comment.talkPame +'">留言</a></h2>';
+		html += '<h2><a href="/wiki/'+ comment.talkPage +'">留言</a></h2>';
 		if ( mw.config.get('wgUserName') ) {
 			html += '<table>'
 				+ '<tr><td><textarea class="pw-comment__text" placeholder="请输入内容"></textarea></td></tr>'
@@ -36,7 +36,7 @@ comment = {
 			}
 		});
 		mw.util.addCSS( ''
-			+ '.pw-comment { margin: 1em 0 0 10em; padding: 0 1em 1em; font-size:1em; background-color: white; border: 1px solid #A7D7F9; border-right: 0; }'
+			+ '.pw-comment { margin: 1em 0 0 11em; padding: 0 1em 1em; font-size:1em; background-color: white; border: 1px solid #A7D7F9; border-right: 0; }'
 			+ '.pw-comment h2 { font-size: 1.2em; }'
 			+ '.pw-comment table { width: 100%; border-collapse: collapse; }'
 			+ '.pw-comment__text { width: 100%; height: 22px; resize: vertical; }'
@@ -64,7 +64,7 @@ comment = {
 		});
 		
 		pw.action.edit( {
-			title: comment.talkPame,
+			title: comment.talkPage,
 			section:'new',
 			text: textToTalk
 		},

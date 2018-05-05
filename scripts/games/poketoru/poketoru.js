@@ -1,6 +1,4 @@
-pw.poketoru = pw.poketoru || {};
-
-$.extend( true, pw.poketoru, {
+poketoru = pw.poketoru = {
 
 	stageTypes : ["","主线关卡","额外关卡","活动关卡"],
 	
@@ -692,7 +690,8 @@ $.extend( true, pw.poketoru, {
 			);
 
 	}
-});
+	
+};
 
 
 pw.loader.using( [ 'pokemon', 'games/poketoru/pokemon.js', 'webui-popover'], function() {

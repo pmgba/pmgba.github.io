@@ -9,6 +9,7 @@ if ( mw.user.options.get('usenewrc') == 0 ) {
 		usermenu += '<li><a title="特殊:用户贡献/'+username+'" href="/wiki/特殊:用户贡献/'+username+'">用户贡献</a></li>';
 		if ( user.match(/封禁/) ) { usermenu += '<li><a title="特殊:封禁用户/'+username+'" href="/wiki/特殊:封禁用户/'+username+'">封禁用户</a></li>'; }
 		usermenu += '</ul></span>';
+		return usermenu;
 	}
 
 	function createtable(log, flag, title, time, byte, user, comment) {
@@ -37,7 +38,7 @@ if ( mw.user.options.get('usenewrc') == 0 ) {
 		}
 	}
 	
-	$('.special li').each( function () {
+	$('.special li:not(.mw-logline)').each( function () {
 		var $this = $(this);
 		$this.addClass('mw-logline');
 		var html = $this.html();
@@ -83,7 +84,7 @@ if ( mw.user.options.get('usenewrc') == 0 ) {
 			$this.addClass('mw-logline-delete');
 		} else if ( act == '保护日志' ) {
 			log = log.replace( act, '保护' );
-			title = html.match(/(保护了|解除了)“<a(.+?)a>”(的保护)*/)[0];
+			title = html.match(/(保护了|解除了)<a(.+?)a>/)[0];
 			$this.addClass('mw-logline-protect');
 		} else if ( act == '封禁日志' ) {
 			log = log.replace( act, '封禁' );

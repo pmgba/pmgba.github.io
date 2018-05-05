@@ -265,17 +265,18 @@ window.pw = window.pokeWiki = {
   },
 
   initMW: function() {
-  	pw.loader.using( 'mw-default', function(){
-	  	$.each( pw.loader._importRule, function( selecter, func ) {
-	  		var $e = $(selecter);
-	  		if ( $e.length > 0 ) func($e);
-	  	});
-	  	$.each( pw.loader._extRule, function( i, v ) {
-	  		if ( v.c() ) pw.loader.using( v.s );
-	  	});
+  	$.each( pw.loader._importRule, function( selecter, func ) {
+  		var $e = $(selecter);
+  		if ( $e.length > 0 ) func($e);
   	});
+  	$.each( pw.loader._extRule, function( i, v ) {
+  		if ( v.c() ) pw.loader.using( v.s );
+  	});
+	
+  	$('.noscript').remove();
   	
-    $('.noscript').remove();
+  	pw.loader.using( 'mw-default', function(){
+		});
   }
 
 };
