@@ -22,6 +22,22 @@ $('#wpTextbox1').keydown(function(e) {
 	}
 });
 
+//用户页检测
+if ( mw.config.get('wgNamespaceNumber') == 2 && mw.config.get('wgRelevantUserName') !=  mw.config.get('wgUserName') ) {
+	var $wpSave = $('#wpSave');
+	$wpSave.prop('disabled', true);
+	var warning = '<div style="margin: 0.5em 0;">'
+		+'<span class="pw-editup__warning" style="font-weight:bold;">这个页面属于另一位用户所有，请在所有者的许可下进行编辑。</span>'
+		+'<a class="pw-editup__confirm" href="#" >[我确定]</a>'
+		+'</div>';
+	$('.editButtons').after(warning);
+	$('.pw-editup__confirm').click(function(){
+		$wpSave.prop('disabled', false);
+		$(this).hide();
+		return false;
+	});
+}
+
 // 预设摘要
 (function(){
 	$( '#wpSummaryLabel .mw-summary-preset-item' ).each(function(){

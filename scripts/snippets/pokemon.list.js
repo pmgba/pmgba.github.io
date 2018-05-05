@@ -1,4 +1,4 @@
-pw.loader.using( [ 'pokemon', 'pokemon/pokemon.7.js'], function(){
+pw.loader.using( [ 'pokemon', 'pokemon/pokemon.7.js', 'pokemon/pokemon.sprite.js' ], function(){
 	
 	function createPokemonTR(pid) {
 		var tr = '';

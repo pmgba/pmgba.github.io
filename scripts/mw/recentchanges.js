@@ -36,7 +36,7 @@ if ( mw.user.options.get('usenewrc') == 0 ) {
 			return '';
 		}
 	}
-
+	
 	$('.special li').each( function () {
 		var $this = $(this);
 		$this.addClass('mw-logline');
@@ -65,9 +65,6 @@ if ( mw.user.options.get('usenewrc') == 0 ) {
 			title = getOuterHTML($('.mw-title',$this));
 		} else if ( act == '用户创建日志' ) {
 			log = log.replace( act, '用户' );
-			//title = html.match(/用户账户(<a.+?a>被创建 )*/)[0];
-			//if ( html.indexOf('，并且密码已通过电子邮件发送') != -1 ) userlink = getOuterHTML($('.mw-userlink:first',$this));
-			//else if ( html.indexOf(' 由 ') == -1 ) userlink = '';
 			title = '创建账户';
 			$this.addClass('mw-logline-newusers');
 		} else if ( act == '上传日志' ) {
@@ -86,7 +83,7 @@ if ( mw.user.options.get('usenewrc') == 0 ) {
 			$this.addClass('mw-logline-delete');
 		} else if ( act == '保护日志' ) {
 			log = log.replace( act, '保护' );
-			title = html.match(/(保护|解除)“<a(.+?)a>”(的保护)*/)[0];
+			title = html.match(/(保护了|解除了)“<a(.+?)a>”(的保护)*/)[0];
 			$this.addClass('mw-logline-protect');
 		} else if ( act == '封禁日志' ) {
 			log = log.replace( act, '封禁' );
